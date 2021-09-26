@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Schema =  mongoose.Schema;
 
@@ -12,7 +13,7 @@ const UserSchema = new Schema({
     email : {
         type : String,
         required : true,
-        unique : [true, "Please try different email"],
+        unique : true,
         match : [
             /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
             "Enter valid email"
@@ -56,10 +57,27 @@ const UserSchema = new Schema({
 
 });
 
+//User Method
+
+UserSchema.methods.generateJwtFromUser = function() {
+    const {JWT_SECRET_KEY,JWT_EXPIRE} = process.env;
+
+    const payload = {
+        id : this._id,
+        name : this.name
+    };
+
+    const token = jwt.sign(payload,JWT_SECRET_KEY,{
+        expiresIn : JWT_EXPIRE
+    });
+
+    return token;
+}
+
 
 UserSchema.pre('save', function(next) {
     //Parola Degişmemisse
-    if(!is_modified(this.password)) {
+    if(!this.isModified("password")) {
         next();
     }
   
