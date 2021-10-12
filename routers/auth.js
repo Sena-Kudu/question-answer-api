@@ -1,5 +1,5 @@
 const express = require("express");
-const {register,tokentest} = require('../controllers/auth');
+const {register,getUser} = require('../controllers/auth');
 const {getAccessToRoute} = require('../middlewares/authorization/auth');
 
 const router = express.Router();
@@ -7,6 +7,6 @@ const router = express.Router();
 //api/auth
 
 router.post("/register", register);
-router.get("/tokentest", getAccessToRoute, tokentest);
+router.get("/profile", getAccessToRoute, getUser);
 
 module.exports = router;
