@@ -15,4 +15,16 @@ const getSingleUser = asyncErrorWrapper(async(req,res,next) => {
 
 });
 
-module.exports = {getSingleUser};
+const getAllUsers = asyncErrorWrapper(async(req,res,next) => {
+
+    const users = await User.find();
+
+    return res.status(200)
+    .json({
+        success: true,
+        data: users
+    });
+
+});
+
+module.exports = {getSingleUser,getAllUsers};
