@@ -1,5 +1,5 @@
 const express = require("express");
-const {register,getUser,login,logout,forgotPassword,resetPassword} = require('../controllers/auth');
+const {register,getUser,login,logout,forgotPassword,resetPassword,editDetails} = require('../controllers/auth');
 const {getAccessToRoute} = require('../middlewares/authorization/auth');
 //const profileImageUpload = require('../middlewares/libraries/profileImageUpload');
 //const multer = require('multer');
@@ -15,6 +15,7 @@ router.get("/profile", getAccessToRoute, getUser);
 router.get("/logout", getAccessToRoute, logout);
 router.post("/forgotpassword", forgotPassword);
 router.put("/resetpassword", resetPassword);
+router.put("/editdetails", getAccessToRoute,editDetails);
 
 /*
 router.post("/upload", function (req, res) {
